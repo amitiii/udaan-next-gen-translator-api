@@ -42,7 +42,8 @@
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 3. **Install_dependencies**
    
-bash 
+   ```bash
+
 pip install -r requirements.txt
 
 4. **Set up environment variables**
@@ -54,8 +55,8 @@ MODEL_NAME=gpt-4
 
 5. **run the api**
 
-bash
-uvicorn app.main:app --reload
+   ```bash
+   uvicorn app.main:app --reload
 
 🧪 API Endpoints
 Method	Endpoint	Description
@@ -64,28 +65,30 @@ POST	/translate	Translate raw text
 POST	/translate-file	Translate uploaded file
 
 📄 Sample /translate Request
-bash
+   ```bash
 POST /translate
 Content-Type: application/json
-
 {
   "source_text": "Hello, how are you?",
   "target_language": "Hindi"
 }
 
 🐳 Docker Deployment
+
 🧱 Build Image
-bash
+   ```bash
 docker build -t udaan-translator-api .
 🚢 Run Container
-bash
+   ```bash
+
 docker run -d -p 8000:8000 --env-file .env udaan-translator-api
 Access API at: http://localhost:8000
 
 ✅ Testing
 To test endpoints:
 
-bash
+   ```bash
+
 curl -X GET http://localhost:8000/health
 For file uploads and text translation, use Postman or Swagger UI at:
 http://localhost:8000/docs
