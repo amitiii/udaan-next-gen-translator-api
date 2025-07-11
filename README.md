@@ -43,8 +43,7 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 3. **Install_dependencies**
    
    ```bash
-
-pip install -r requirements.txt
+   pip install -r requirements.txt
 
 4. **Set up environment variables**
    Create a .env file using .env.example as a template.
@@ -66,7 +65,7 @@ POST	/translate-file	Translate uploaded file
 
 📄 Sample /translate Request
  ```bash
-POST /translate
+ POST /translate
 Content-Type: application/json
 
 {
@@ -74,26 +73,28 @@ Content-Type: application/json
   "target_language": "Hindi"
 }
 
-📄 Sample /translate-file Request
-Use tools like Postman or curl to send a multipart file with form data.
+
+
+              📄 Sample /translate-file Request
+ Use tools like Postman or curl to send a multipart file with form data.
 
 🐳 Docker Deployment
 
 🧱 Build Image
    ```bash
-docker build -t udaan-translator-api .
+   docker build -t udaan-translator-api .
 🚢 Run Container
    ```bash
 
-docker run -d -p 8000:8000 --env-file .env udaan-translator-api
-Access API at: http://localhost:8000
+   docker run -d -p 8000:8000 --env-file .env udaan-translator-api
+   Access API at: http://localhost:8000
 
 ✅ Testing
 To test endpoints:
 
    ```bash
 
-curl -X GET http://localhost:8000/health
+   curl -X GET http://localhost:8000/health
 For file uploads and text translation, use Postman or Swagger UI at:
 http://localhost:8000/docs
 
