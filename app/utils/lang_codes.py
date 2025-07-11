@@ -1,0 +1,1 @@
+ISO_LANG_CODES = ["hi", "ta", "bn", "kn"]
