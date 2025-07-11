@@ -1,0 +1,28 @@
+# Translation Service Environment Variables
+# Copy this file to .env and fill in your values
+
+# Database Configuration
+TRANSLATION_DB_PATH=translation_logs.db
+
+# Google Translate API (Optional - for future use)
+GOOGLE_TRANSLATE_API_KEY=your_google_translate_api_key_here
+
+# Gemini Flash LLM API Key (Required for Gemini translations)
+GEMINI_API_KEY=your_gemini_api_key_here
+
+# Server Configuration
+HOST=0.0.0.0
+PORT=8000
+RELOAD=False
+
+# Logging Configuration
+LOG_LEVEL=info
+LOG_FILE=translation_service.log
+
+# Rate Limiting (optional)
+MAX_REQUESTS_PER_MINUTE=60
+MAX_TEXT_LENGTH=1000
+MAX_BULK_TEXTS=10
+
+# Cache Configuration
+LANGUAGE_CACHE_DURATION=3600  # 1 hour in seconds 

@@ -1,0 +1,194 @@
+{
+	"info": {
+		"_postman_id": "translation-service-api",
+		"name": "Translation Service API",
+		"description": "Collection for testing the Translation Microservice with Mock and Gemini endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/health",
+					"host": ["{{base_url}}"],
+					"path": ["health"]
+				}
+			}
+		},
+		{
+			"name": "Root Info",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/",
+					"host": ["{{base_url}}"],
+					"path": [""]
+				}
+			}
+		},
+		{
+			"name": "Mock Translation - Single",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"text\": \"Hello, how are you?\",\n  \"target_lang\": \"es\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1/translate/mock",
+					"host": ["{{base_url}}"],
+					"path": ["api", "v1", "translate", "mock"]
+				}
+			}
+		},
+		{
+			"name": "Mock Translation - Bulk",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"texts\": [\"Hello\", \"Good morning\", \"Thank you\"],\n  \"target_lang\": \"fr\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1/translate/bulk/mock",
+					"host": ["{{base_url}}"],
+					"path": ["api", "v1", "translate", "bulk", "mock"]
+				}
+			}
+		},
+		{
+			"name": "Gemini Translation - Single",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"text\": \"Hello, how are you?\",\n  \"target_lang\": \"ta\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1/translate/gemini",
+					"host": ["{{base_url}}"],
+					"path": ["api", "v1", "translate", "gemini"]
+				}
+			}
+		},
+		{
+			"name": "Gemini Translation - Bulk",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"texts\": [\"Hello\", \"Good morning\", \"Thank you\"],\n  \"target_lang\": \"hi\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1/translate/bulk/gemini",
+					"host": ["{{base_url}}"],
+					"path": ["api", "v1", "translate", "bulk", "gemini"]
+				}
+			}
+		},
+		{
+			"name": "Get Supported Languages",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/v1/languages",
+					"host": ["{{base_url}}"],
+					"path": ["api", "v1", "languages"]
+				}
+			}
+		},
+		{
+			"name": "Detect Language",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\"Bonjour, comment allez-vous?\""
+				},
+				"url": {
+					"raw": "{{base_url}}/api/v1/detect",
+					"host": ["{{base_url}}"],
+					"path": ["api", "v1", "detect"]
+				}
+			}
+		},
+		{
+			"name": "Get Translation Stats",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/v1/stats?days=7",
+					"host": ["{{base_url}}"],
+					"path": ["api", "v1", "stats"],
+					"query": [
+						{
+							"key": "days",
+							"value": "7"
+						}
+					]
+				}
+			}
+		},
+		{
+			"name": "Get Recent Logs",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/v1/logs?limit=10",
+					"host": ["{{base_url}}"],
+					"path": ["api", "v1", "logs"],
+					"query": [
+						{
+							"key": "limit",
+							"value": "10"
+						}
+					]
+				}
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000",
+			"type": "string"
+		}
+	]
+} 
