@@ -5,111 +5,190 @@
 ![FastAPI](https://img.shields.io/badge/FastAPI-Framework-brightgreen)
 ![Docker](https://img.shields.io/badge/Docker-Supported-blue)
 
-**Udaan Next-Gen Translator API** is a production-ready microservice built with FastAPI that enables language translation using OpenAI’s GPT models. It supports multiple input formats and includes comprehensive support for PDF, DOCX, TXT file translation, logging, health checks, and Dockerized deployment.
+**Udaan Next-Gen Translator API** is a lightweight, production-grade microservice built with FastAPI to translate text and documents using OpenAI GPT models. It supports `.txt`, `.pdf`, and `.docx` files and is fully containerized using Docker.
 
 ---
 
 ## 🚀 Features
 
-- 🌍 Translate text between any languages supported by OpenAI
-- 📁 Translate files: `.txt`, `.pdf`, `.docx`
-- 🧠 Uses GPT-4 / GPT-3.5 via OpenAI API for contextual translation
-- 🧪 Health check endpoint (`/health`)
-- 📦 Modular, scalable microservice architecture
-- 🔐 Environment-based secrets handling
-- 🐳 Dockerized for easy deployment
+- 🌍 Translate between any OpenAI-supported languages
+- 📁 Translate `.txt`, `.pdf`, and `.docx` files
+- 🧠 Uses GPT-3.5 / GPT-4 via OpenAI API
+- 🧪 Health check endpoint
+- 🐳 Dockerized microservice
+- 🔒 Environment-based API key configuration
+- 📦 Modular and scalable architecture
 
 ---
 
+## 📁 Project Structure
+
+```
+udaan-next-gen-translator-api/
+├── app/
+│   ├── main.py              # FastAPI app entry point
+│   ├── config.py            # Environment variable handling
+│   ├── utils/
+│   │   ├── translator.py    # GPT-based translation logic
+│   │   ├── file_handler.py  # PDF, DOCX, TXT reading
+│   │   └── logger.py        # Logging setup
+│   └── routers/
+│       └── routes.py        # API endpoints
+├── requirements.txt         # Project dependencies
+├── Dockerfile               # Docker configuration
+├── .env.example             # Environment variable example
+└── README.md                # Project documentation
+```
+
 ---
 
-## 📦 Installation
+## 🧪 API Endpoints
 
-### 🔧 Prerequisites
+| Method | Endpoint          | Description                |
+|--------|-------------------|----------------------------|
+| GET    | `/health`         | Health check               |
+| POST   | `/translate`      | Translate plain text       |
+| POST   | `/translate-file` | Translate uploaded file    |
+
+---
+
+## 🔧 Setup & Installation
+
+### ✅ Prerequisites
 
 - Python 3.9+
-- OpenAI API Key
+- OpenAI API key
 - Docker (optional)
 
-### 🔨 Setup Locally
+### 🔨 Local Setup
 
-1. **Clone the Repository**
+1. **Clone the repository**
    ```bash
    git clone https://github.com/amitiii/udaan-next-gen-translator-api.git
    cd udaan-next-gen-translator-api
-2. **Create and activate a virtual environment**
+   ```
+
+2. **Create virtual environment**
+   ```bash
    python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-3. **Install_dependencies**
-   
+   source venv/bin/activate  # Windows: venv\Scripts\activate
+   ```
+
+3. **Install dependencies**
    ```bash
    pip install -r requirements.txt
+   ```
 
-4. **Set up environment variables**
-   Create a .env file using .env.example as a template.
+4. **Configure environment variables**
 
-ini
-OPENAI_API_KEY=your-openai-key
-MODEL_NAME=gpt-4
+   Create a `.env` file in the root directory:
 
-5. **run the api**
+   ```
+   OPENAI_API_KEY=your_openai_api_key
+   MODEL_NAME=gpt-4
+   ```
 
+5. **Run the API**
    ```bash
    uvicorn app.main:app --reload
+   ```
 
-🧪 API Endpoints
-Method	Endpoint	Description
-GET	/health	Health check endpoint
-POST	/translate	Translate raw text
-POST	/translate-file	Translate uploaded file
+---
 
-📄 Sample /translate Request
- ```bash
- POST /translate
+## 🐳 Docker Deployment
+
+1. **Build the image**
+   ```bash
+   docker build -t udaan-translator-api .
+   ```
+
+2. **Run the container**
+   ```bash
+   docker run -d -p 8000:8000 --env-file .env udaan-translator-api
+   ```
+
+3. **Access API**
+   Open in browser: [http://localhost:8000/docs](http://localhost:8000/docs)
+
+---
+
+## 📄 Sample Request - `/translate`
+
+### Request (JSON)
+```json
+POST /translate
 Content-Type: application/json
 
 {
   "source_text": "Hello, how are you?",
   "target_language": "Hindi"
 }
+```
 
+### Response (JSON)
+```json
+{
+  "translated_text": "नमस्ते, आप कैसे हैं?"
+}
+```
 
+---
 
-              📄 Sample /translate-file Request
- Use tools like Postman or curl to send a multipart file with form data.
+## 📄 Sample Request - `/translate-file`
 
-🐳 Docker Deployment
+Use Postman or curl to upload a file with `multipart/form-data`:
 
-🧱 Build Image
-   ```bash
-   docker build -t udaan-translator-api .
-🚢 Run Container
-   ```bash
+- **file**: The document (PDF/DOCX/TXT)
+- **target_language**: e.g., `"Spanish"`
 
-   docker run -d -p 8000:8000 --env-file .env udaan-translator-api
-   Access API at: http://localhost:8000
+---
 
-✅ Testing
-To test endpoints:
+## 🔍 Testing
 
-   ```bash
+Health check:
+```bash
+curl -X GET http://localhost:8000/health
+```
 
-   curl -X GET http://localhost:8000/health
-For file uploads and text translation, use Postman or Swagger UI at:
-http://localhost:8000/docs
+Docs:
+- Swagger UI: [http://localhost:8000/docs](http://localhost:8000/docs)
+- ReDoc: [http://localhost:8000/redoc](http://localhost:8000/redoc)
 
-📚 Tech Stack
-FastAPI - Web framework
+---
 
-OpenAI GPT-4/GPT-3.5 - Translation engine
+## ⚙️ Tech Stack
 
-Python - Core language
+- **FastAPI** - API Framework
+- **OpenAI GPT-4 / GPT-3.5** - Translation engine
+- **PyMuPDF** - PDF parsing
+- **python-docx** - DOCX parsing
+- **Uvicorn** - ASGI server
+- **Docker** - Containerization
 
-PyMuPDF, python-docx - File parsing
+---
 
-Uvicorn - ASGI server
+## 🙋‍♂️ Author
 
-Docker - Containerization
+**Amiti Sharma**  
+GitHub: [@amitiii](https://github.com/amitiii)
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🔮 Future Enhancements
+
+- 🌐 Auto language detection
+- ⚡ Caching translations
+- 🧾 Translation history logs
+- 🔐 API key rate limiting and user auth
+- 🌐 Frontend integration
+
+---
 
 
 
