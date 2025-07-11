@@ -65,13 +65,17 @@ POST	/translate	Translate raw text
 POST	/translate-file	Translate uploaded file
 
 📄 Sample /translate Request
-   ```bash
+ ```bash
 POST /translate
 Content-Type: application/json
+
 {
   "source_text": "Hello, how are you?",
   "target_language": "Hindi"
 }
+
+📄 Sample /translate-file Request
+Use tools like Postman or curl to send a multipart file with form data.
 
 🐳 Docker Deployment
 
