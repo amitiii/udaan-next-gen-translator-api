@@ -167,26 +167,5 @@ pytest tests/
 
 ---
 
-## 🧠 Future Improvements
-
-- 🔐 Add rate-limiting and auth middleware  
-- ☁️ Integrate true Google Translate or OpenAI translator  
-- 📈 Add request dashboard (FastAPI Admin or Streamlit)  
-- 🔄 Add retry mechanism for LLM failure  
-- 🔄 Add CI/CD via GitHub Actions  
-
----
-
-## 👤 Author
-
-Made with ❤️ by **[Your Name]**  
-📧 [your.email@example.com]  
-🎯 Internship Role: **AI Engineer Research Intern, IIT Bombay**
-
----
-
-## 🏁 License
-
-MIT License – Free to use with credit.
 
 
