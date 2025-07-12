@@ -1,64 +1,84 @@
-<h1 align="center">🌐 Udaan: Next-Gen Translator API 🚀</h1>
+# 🌐 Translation Microservice - Project Udaan
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Python-3.10+-blue.svg" alt="Python 3.10+">
-  <img src="https://img.shields.io/badge/FastAPI-💨-green.svg" alt="FastAPI">
-  <img src="https://img.shields.io/badge/Docker-Containerized-blue.svg" alt="Docker">
-  <img src="https://img.shields.io/badge/CI/CD-Ready-orange.svg" alt="CI/CD">
-  <img src="https://img.shields.io/github/license/amitiii/udaan-next-gen-translator-api" alt="License">
-</p>
+This project implements a lightweight, modular translation microservice using FastAPI. It provides a RESTful API to translate text, supports bulk translations, includes robust input validation, comprehensive error handling, and logs all translation requests to an SQLite database.
 
-<p align="center">
-  <strong>Udaan</strong> is a production-ready, scalable microservice built using FastAPI that performs intelligent, real-time language translation using modern NLP tools.
-</p>
+The service is designed with a **pluggable translation engine architecture**, making it highly maintainable, scalable, and adaptable for integration into larger frameworks.
 
 ---
 
-## 🧠 Project Motivation
+## 📚 Table of Contents
 
-Language barriers limit global collaboration and communication. **Udaan** aims to bridge that gap by offering:
-- A modular, scalable, and containerized **API-first architecture**.
-- Extensible design for **LLM-powered translation (e.g., OpenAI, HuggingFace)**.
-- A clean FastAPI backend that can easily plug into any frontend or product.
-
----
-
-## ✨ Key Features
-
-✅ Translate text between 100+ languages  
-✅ Built with asynchronous FastAPI for high performance  
-✅ Clean RESTful API with auto-generated OpenAPI docs  
-✅ Easy deployment with Docker  
-✅ Designed for extensibility (LLMs, CI/CD, Auth, Rate limiting, etc.)  
-✅ Lightweight and fast – ideal for both MVPs and production
-
----
-
-## 🔧 Tech Stack
-
-| Category           | Technologies Used                                 |
-|--------------------|---------------------------------------------------|
-| Backend Framework  | FastAPI, Uvicorn                                  |
-| Programming Lang   | Python 3.10+                                       |
-| NLP/Translation    | `googletrans` (with LLM-ready architecture)       |
-| Testing            | `pytest`                                           |
-| Containerization   | Docker                                             |
-| Deployment Ready   | CI/CD pipeline-compatible, GitHub Actions-ready   |
+- [Features](#features)
+- [Project Structure](#project-structure)
+- [Setup and Installation](#setup-and-installation)
+- [Running the Application](#running-the-application)
+- [API Endpoints](#api-endpoints)
+  - [`GET /health`](#get-health)
+  - [`POST /api/v1/translate`](#post-apiv1translate)
+  - [`POST /api/v1/bulk-translate`](#post-apiv1bulk-translate)
+- [Pluggable Translation Engines](#pluggable-translation-engines)
+- [Database Logging](#database-logging)
+- [Running Tests](#running-tests)
+- [Deployment](#deployment)
+- [Future Enhancements](#future-enhancements)
+- [License](#license)
 
 ---
 
-### 🗂️ Project Structure
+## 🚀 Features
+
+- **FastAPI Framework**: High-performance, easy-to-use API development with automatic OpenAPI documentation.
+- **Modular Architecture**: Clear separation of concerns (API, core logic, database, models, plugins) for enhanced maintainability.
+- **Pluggable Translation Engines**: Easily switch between a Mock engine, an LLM-based engine, or integrate a real Google Translate API.
+- **Robust Input Validation**: Utilizes Pydantic models for strict request/response validation.
+- **Comprehensive Logging**: Persists all translation requests and their responses to an SQLite database.
+- **Health Check Endpoint**: A dedicated `/health` endpoint for quick service monitoring.
+- **Bulk Translation Support**: Efficiently translates multiple texts in a single request.
+- **Asynchronous Operations**: FastAPI’s `async/await` for non-blocking I/O.
+- **Automated API Documentation**: Swagger UI (`/docs`) and ReDoc (`/redoc`) available out of the box.
+- **Containerization Ready**: Includes a `Dockerfile` for deployment.
+- **Unit Tests**: Full coverage using `pytest`.
+
+---
+
+## 🗂️ Project Structure
 
 ```text
-udaan-next-gen-translator-api/
+.
 ├── app/
-│   ├── main.py              # App entry point
-│   ├── routes/              # API endpoints
-│   ├── models/              # Pydantic schemas
-│   ├── utils/               # Translation logic and helpers
-│
-├── tests/                   # Unit tests
-├── Dockerfile               # Docker container setup
-├── requirements.txt         # Python dependencies
-└── README.md                # Project documentation
-```
+│   ├── api/                    # FastAPI routes and endpoints
+│   │   ├── __init__.py
+│   │   └── v1/
+│   │       ├── __init__.py
+│   │       └── endpoints.py    # /translate, /bulk-translate, /health
+│   ├── core/
+│   │   ├── __init__.py
+│   │   ├── config.py           # Settings and configs
+│   │   └── translation_engine.py # Abstract engine base
+│   ├── db/
+│   │   ├── __init__.py
+│   │   └── database.py         # SQLite logic and logging
+│   ├── models/
+│   │   ├── __init__.py
+│   │   └── schemas.py          # Pydantic request/response schemas
+│   ├── plugins/
+│   │   ├── __init__.py
+│   │   ├── llm_engine.py       # LLM-based translation engine
+│   │   └── mock_engine.py      # Mock engine for demo/testing
+│   └── main.py                 # FastAPI app entry point
+├── tests/
+│   ├── __init__.py
+│   └── test_api.py             # API tests
+├── Dockerfile
+├── requirements.txt
+└── README.md
+
+---
+
+⚙️ Setup and Installation
+1. Clone the repository
+bash
+Copy
+Edit
+git clone https://github.com/amitiii/udaan-next-gen-translator-api.git
+cd udaan-next-gen-translator-api
