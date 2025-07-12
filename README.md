@@ -75,10 +75,10 @@ The service is designed with a **pluggable translation engine architecture**, ma
 
 ---
 
-⚙️ Setup and Installation
-1. Clone the repository
-bash
-Copy
-Edit
-git clone https://github.com/amitiii/udaan-next-gen-translator-api.git
-cd udaan-next-gen-translator-api
+## 🛠️ Installation
+
+1. **Clone the repository:**
+   ```bash
+   git clone <repository-url>
+   cd translation_service
+   ```
