@@ -70,7 +70,7 @@ This project implements a lightweight, modular translation microservice using Fa
 * **Unit Tests**: Comprehensive test suite using `pytest` to ensure reliability and correctness of the application logic.
 
 ## Project Structure
-
+.
 ├── app/
 │   ├── api/                    # Defines FastAPI routes and endpoints
 │   │   ├── init.py
