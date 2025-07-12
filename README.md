@@ -1,84 +1,171 @@
-# 🌐 Translation Microservice - Project Udaan
+# 🕊️ Udaan Next-Gen – Translation Microservice
 
-This project implements a lightweight, modular translation microservice using FastAPI. It provides a RESTful API to translate text, supports bulk translations, includes robust input validation, comprehensive error handling, and logs all translation requests to an SQLite database.
-
-The service is designed with a **pluggable translation engine architecture**, making it highly maintainable, scalable, and adaptable for integration into larger frameworks.
+🚀 An advanced, modular, production-ready **FastAPI-based translation microservice** built for the IIT Bombay AI Engineer Research Internship.
 
 ---
 
-## 📚 Table of Contents
+## 🔍 Overview
 
-- [Features](#features)
-- [Project Structure](#project-structure)
-- [Setup and Installation](#setup-and-installation)
-- [Running the Application](#running-the-application)
-- [API Endpoints](#api-endpoints)
-  - [`GET /health`](#get-health)
-  - [`POST /api/v1/translate`](#post-apiv1translate)
-  - [`POST /api/v1/bulk-translate`](#post-apiv1bulk-translate)
-- [Pluggable Translation Engines](#pluggable-translation-engines)
-- [Database Logging](#database-logging)
-- [Running Tests](#running-tests)
-- [Deployment](#deployment)
-- [Future Enhancements](#future-enhancements)
-- [License](#license)
+This microservice accepts input text and a target language, translates the content using a **mock dictionary** (or plug-in LLM model like Groq or Google Translate), and returns the translated result. Designed with extensibility, modularity, and performance in mind.
+
+> ✅ **Bonus Features**: Async bulk translation, SQLite logging, health check, Docker deployment, plug-and-play translator adapter, and test-ready structure.
 
 ---
 
-## 🚀 Features
+## 🧠 Key Features
 
-- **FastAPI Framework**: High-performance, easy-to-use API development with automatic OpenAPI documentation.
-- **Modular Architecture**: Clear separation of concerns (API, core logic, database, models, plugins) for enhanced maintainability.
-- **Pluggable Translation Engines**: Easily switch between a Mock engine, an LLM-based engine, or integrate a real Google Translate API.
-- **Robust Input Validation**: Utilizes Pydantic models for strict request/response validation.
-- **Comprehensive Logging**: Persists all translation requests and their responses to an SQLite database.
-- **Health Check Endpoint**: A dedicated `/health` endpoint for quick service monitoring.
-- **Bulk Translation Support**: Efficiently translates multiple texts in a single request.
-- **Asynchronous Operations**: FastAPI’s `async/await` for non-blocking I/O.
-- **Automated API Documentation**: Swagger UI (`/docs`) and ReDoc (`/redoc`) available out of the box.
-- **Containerization Ready**: Includes a `Dockerfile` for deployment.
-- **Unit Tests**: Full coverage using `pytest`.
+| Feature                    | Description |
+|---------------------------|-------------|
+| ✅ Single sentence translation | Translate one sentence using a mock or LLM backend |
+| ✅ Bulk translation         | Translate multiple sentences asynchronously |
+| ✅ Health check             | `/health` endpoint with version, uptime, and supported langs |
+| ✅ SQLite logging           | Every translation request is stored with full auditability |
+| ✅ ISO 639‑1 validation     | Ensures valid 2-letter language codes only |
+| ✅ Plug-n-play architecture | Supports adapters for multiple translation engines |
+| ✅ Dockerized               | Production-ready Dockerfile included |
+| ✅ Pytest-based tests       | Ensures code quality & behavior verification |
 
 ---
 
-## 🗂️ Project Structure
+## 📦 Supported Languages
 
-```text
-.
+- `hi` – Hindi  
+- `ta` – Tamil  
+- `bn` – Bengali  
+- `kn` – Kannada  
+
+---
+
+## 📁 Project Structure
+
+```
+udaan-next-gen/
 ├── app/
-│   ├── api/                    # FastAPI routes and endpoints
-│   │   ├── __init__.py
-│   │   └── v1/
-│   │       ├── __init__.py
-│   │       └── endpoints.py    # /translate, /bulk-translate, /health
-│   ├── core/
-│   │   ├── __init__.py
-│   │   ├── config.py           # Settings and configs
-│   │   └── translation_engine.py # Abstract engine base
-│   ├── db/
-│   │   ├── __init__.py
-│   │   └── database.py         # SQLite logic and logging
-│   ├── models/
-│   │   ├── __init__.py
-│   │   └── schemas.py          # Pydantic request/response schemas
-│   ├── plugins/
-│   │   ├── __init__.py
-│   │   ├── llm_engine.py       # LLM-based translation engine
-│   │   └── mock_engine.py      # Mock engine for demo/testing
-│   └── main.py                 # FastAPI app entry point
-├── tests/
-│   ├── __init__.py
-│   └── test_api.py             # API tests
+│   ├── routes/           # API endpoints
+│   ├── services/         # Translation logic
+│   ├── adapters/         # Translation engine plugins (Mock / LLM)
+│   ├── models/           # Request & Response schemas
+│   ├── db/               # SQLite logging
+│   └── main.py           # FastAPI entry point
+├── tests/                # Pytest-based tests
 ├── Dockerfile
 ├── requirements.txt
 └── README.md
+```
 
 ---
 
-## 🛠️ Installation
+## 🚀 API Usage
 
-1. **Clone the repository:**
-   ```bash
-   git clone <repository-url>
-   cd translation_service
-   ```
+### 🔹 POST `/translate`
+
+Translate a single block of text.
+
+**Request:**
+```json
+{
+  "text": "hello world",
+  "target_lang": "hi"
+}
+```
+
+**Response:**
+```json
+{
+  "original_text": "hello world",
+  "translated_text": "नमस्ते दुनिया",
+  "target_lang": "hi"
+}
+```
+
+---
+
+### 🔹 POST `/translate/bulk`
+
+Translate multiple sentences in one request.
+
+**Request:**
+```json
+{
+  "sentences": [
+    {"text": "hello", "target_lang": "bn"},
+    {"text": "world", "target_lang": "ta"}
+  ]
+}
+```
+
+**Response:**
+```json
+[
+  {"original_text": "hello", "translated_text": "হ্যালো", "target_lang": "bn"},
+  {"original_text": "world", "translated_text": "உலகம்", "target_lang": "ta"}
+]
+```
+
+---
+
+### 🔹 GET `/health`
+
+Basic uptime and metadata check.
+
+**Response:**
+```json
+{
+  "status": "ok",
+  "version": "1.0.2",
+  "uptime": "00:10:04",
+  "language_support": ["hi", "ta", "bn", "kn"]
+}
+```
+
+---
+
+## 💾 Translation Logs
+
+Each translation request is logged to a local `SQLite` DB file (`translations.db`) containing:
+
+- Original Text  
+- Translated Text  
+- Target Language  
+
+Use `sqlite3 translations.db` to inspect or query.
+
+---
+
+## 🐳 Run with Docker
+
+```bash
+# Build
+docker build -t udaan-next-gen .
+
+# Run
+docker run -p 8000:8000 udaan-next-gen
+```
+
+📍 Access Swagger UI: [http://localhost:8000/docs](http://localhost:8000/docs)
+
+---
+
+## ✅ Setup Locally (Non-Docker)
+
+```bash
+git clone <your_repo_url>
+cd udaan-next-gen
+python -m venv venv
+source venv/bin/activate  # or venv\\Scripts\\activate on Windows
+pip install -r requirements.txt
+uvicorn app.main:app --reload
+```
+
+---
+
+## 🧪 Run Tests
+
+```bash
+pytest tests/
+```
+---
+
+## 🏁 License
+
+MIT License – Free to use with credit.
